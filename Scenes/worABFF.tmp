@@ -1,17 +1,16 @@
-[gd_scene load_steps=18 format=3 uid="uid://bp1lh86g1nlls"]
+[gd_scene load_steps=16 format=3 uid="uid://bp1lh86g1nlls"]
 
 [ext_resource type="Script" path="res://Scripts/World_generator.gd" id="1_yu3q7"]
 [ext_resource type="Texture2D" uid="uid://b8spwkuhxhqsv" path="res://Sprites/Sprout Lands - Sprites - Basic pack/Tilesets/Grass.png" id="2_1lhdf"]
 [ext_resource type="Texture2D" uid="uid://cr5dd2wlo2ui4" path="res://Sprites/Sprout Lands - Sprites - Basic pack/Tilesets/Bitmask references 1.png" id="2_8fgh3"]
 [ext_resource type="Texture2D" uid="uid://baa48nouus6fk" path="res://Sprites/Sprout Lands - Sprites - Basic pack/Tilesets/Hills.png" id="3_xsnpk"]
 [ext_resource type="Texture2D" uid="uid://buolsydj2w7d" path="res://Sprites/Sprout Lands - Sprites - Basic pack/Tilesets/Tilled_Dirt.png" id="4_hc3th"]
-[ext_resource type="Texture2D" uid="uid://c3trkxdwvbbmn" path="res://Sprites/Sprout Lands - Sprites - Basic pack/Tilesets/Water.png" id="5_kluoi"]
 [ext_resource type="Texture2D" uid="uid://bwadp0vddr5og" path="res://Sprites/Sprout Lands - Sprites - Basic pack/Tilesets/Bitmask references 2.png" id="6_8wu8p"]
 
 [sub_resource type="Gradient" id="Gradient_tfxer"]
 interpolation_mode = 1
-offsets = PackedFloat32Array(0, 0.168539, 0.370787, 0.662921)
-colors = PackedColorArray(0.257694, 0.191373, 0, 1, 0.124422, 0.29156, 0.0205109, 1, 0.361052, 0.385477, 0.369172, 1, 0.395072, 0.37636, 0.888619, 1)
+offsets = PackedFloat32Array(0, 0.235955, 0.646067)
+colors = PackedColorArray(0, 0.586479, 0.31733, 1, 0.397958, 0.207317, 0, 1, 0.395072, 0.37636, 0.888619, 1)
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_wgdtc"]
 
@@ -20,7 +19,6 @@ color_ramp = SubResource("Gradient_tfxer")
 noise = SubResource("FastNoiseLite_wgdtc")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_w1iun"]
-resource_name = "grass"
 texture = ExtResource("2_1lhdf")
 0:0/0 = 0
 0:0/0/terrain_set = 0
@@ -509,7 +507,6 @@ texture = ExtResource("2_1lhdf")
 8:6/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_r7cpu"]
-resource_name = "hills"
 texture = ExtResource("3_xsnpk")
 0:0/0 = 0
 0:0/0/terrain_set = 1
@@ -899,7 +896,6 @@ texture = ExtResource("3_xsnpk")
 10:6/0/terrain_set = 1
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_uj72j"]
-resource_name = "dirt"
 texture = ExtResource("4_hc3th")
 0:0/0 = 0
 1:0/0 = 0
@@ -972,16 +968,7 @@ texture = ExtResource("4_hc3th")
 8:6/0 = 0
 9:6/0 = 0
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_on82l"]
-resource_name = "water"
-texture = ExtResource("5_kluoi")
-0:0/0 = 0
-1:0/0 = 0
-2:0/0 = 0
-3:0/0 = 0
-
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ss5kl"]
-resource_name = "bitmask 0"
 texture = ExtResource("2_8fgh3")
 0:0/0 = 0
 1:0/0 = 0
@@ -1465,7 +1452,6 @@ texture = ExtResource("2_8fgh3")
 29:15/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4wk4h"]
-resource_name = "bitmask 1 "
 texture = ExtResource("6_8wu8p")
 0:0/0 = 0
 1:0/0 = 0
@@ -1960,7 +1946,6 @@ sources/6 = SubResource("TileSetAtlasSource_4wk4h")
 sources/0 = SubResource("TileSetAtlasSource_w1iun")
 sources/1 = SubResource("TileSetAtlasSource_r7cpu")
 sources/2 = SubResource("TileSetAtlasSource_uj72j")
-sources/3 = SubResource("TileSetAtlasSource_on82l")
 
 [node name="World Generator" type="Node2D"]
 y_sort_enabled = true
@@ -1977,6 +1962,3 @@ layer_1/tile_data = PackedInt32Array()
 layer_2/name = "dirt"
 layer_2/z_index = -1
 layer_2/tile_data = PackedInt32Array()
-layer_3/name = "water"
-layer_3/z_index = -2
-layer_3/tile_data = PackedInt32Array()
