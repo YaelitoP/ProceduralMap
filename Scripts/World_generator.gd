@@ -1,56 +1,72 @@
 extends Node2D
 
 @export var noise_texture : NoiseTexture2D
+@export var noise_water: NoiseTexture2D
 @onready var map: = $TileMap
-
+@onready var camera: = $Camera2D
 var noise : Noise
 
 var width : int = 300
 var height : int = 300
 
+#use it for experiments with news sources
+var source_id: = 0
+
+
 var dirt_arr: = []
-var dirt_id: = 2
-var dirt_tile: = Vector2i(1,1)
+var set_dirt: = 2
 var dirt_layer: = 2
 
-var water_id = 3
-var water_tile: = Vector2i(0,0)
+
+var set_water: = 3
+var water_arr: = []
 var water_layer: = 3
 
 var hill_arr: = []
-var hill_id: = 1
 var hill_layer: = 1
 var set_hill: = 1
 
 var grass_arr: = []
-var grass_id: = 0
 var grass_layer: = 0
 var set_grass: = 0
+
+var val_arr: = []
 var rng = RandomNumberGenerator.new()
 var rng_num = 0
 
 func _ready():
 	randomize()
-	var rng_num = rng.randf_range(0, 20.0)
+	rng_num = rng.randf_range(0, 10.0)
 	noise_texture.noise.set_seed(rng_num)
 	noise = noise_texture.noise
 	generate_world()
+func _physics_process(delta):
+	if Input.is_action_just_pressed("zoomIn"):
+		camera.set_zoom(Vector2(camera.get_zoom().x + 0.1, camera.get_zoom().y + 0.1))
 	
+	if Input.is_action_just_pressed("zoomOut"):
+		camera.set_zoom(Vector2(camera.get_zoom().x - 0.1, camera.get_zoom().y - 0.1))
+		
 func generate_world():
 	for x in range(width):
 		for y in range(height):
 			var noise_val = noise.get_noise_2d(x,y)
-			
-			if noise_val > 0.3:
-			
+			val_arr.append(noise_val)
+			if noise_val > 0.5:
 				hill_arr.append(Vector2i(x,y))
 				
-			elif noise_val >= 0.1:
+			elif noise_val > 0.17:
 				grass_arr.append(Vector2i(x,y))
 				
 			elif noise_val >= 0.0:
+				dirt_arr.append(Vector2i(x,y))
 				
-				map.set_cell(dirt_layer, Vector2(x,y), dirt_id, dirt_tile)
-			map.set_cell(water_layer, Vector2(x,y), water_id, water_tile)
-	map.set_cells_terrain_connect(hill_layer, hill_arr, set_hill,0)
-	map.set_cells_terrain_connect(grass_layer, grass_arr, set_grass,0)
+			water_arr.append(Vector2i(x,y))
+			
+	map.set_cells_terrain_connect(water_layer, water_arr, source_id, set_water)
+	map.set_cells_terrain_connect(dirt_layer, dirt_arr, source_id, set_dirt)
+	map.set_cells_terrain_connect(grass_layer, grass_arr, source_id, set_grass)
+	map.set_cells_terrain_connect(hill_layer, hill_arr, source_id, set_hill)
+	print(val_arr.max(), val_arr.min())
+
+
