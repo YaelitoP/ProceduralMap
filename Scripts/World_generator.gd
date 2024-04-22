@@ -2,12 +2,12 @@ extends Node2D
 
 @export var noise_texture : NoiseTexture2D
 @export var noise_tree: NoiseTexture2D
+@export var map_width : int = 350
+@export var map_height : int = 350
 @onready var map: = $TileMap
-@onready var camera: = $Camera2D
 var noise : Noise
 var noiseT : Noise
-var width : int = 200
-var height : int = 200
+
 
 #use it for experiments with news sources
 var source_id: = 0
@@ -34,42 +34,37 @@ var tree_id: = 7
 var tree_pos: = Vector2i(0,0)
 var tree_layer: = 4
 
-
-
 var val_arr: = []
 var rng = RandomNumberGenerator.new()
 var rng_num = 0
 
 func _ready():
 	randomize()
-	rng_num = rng.randf_range(0, 10.0)
+	rng_num = rng.randf_range(0, 40.0)
 	noise_texture.noise.set_seed(rng_num)
 	noise = noise_texture.noise
 	noiseT = noise_tree.noise
 	generate_world()
 
-func _physics_process(delta):
-	if Input.is_action_just_pressed("zoomIn"):
-		camera.set_zoom(Vector2(camera.get_zoom().x + 0.1, camera.get_zoom().y + 0.1))
-	
-	if Input.is_action_just_pressed("zoomOut"):
-		camera.set_zoom(Vector2(camera.get_zoom().x - 0.1, camera.get_zoom().y - 0.1))
-		
 func generate_world():
-	for x in range(width):
-		for y in range(height):
-			var noise_val = noise.get_noise_2d(x,y)
+	for x in range(map_width/2):
+		for y in range(map_height/2):
+			var grass_val = noise.get_noise_2d(x,y)
+			var hill_val = noise.get_noise_2d(x,y)
+			var dirt_val = noise.get_noise_2d(x,y)
 			var noiseT_val = noiseT.get_noise_2d(x,y)
 			val_arr.append(noiseT_val)
 			
-			if noise_val >= -0.2 and noise_val <= 0.1:
+			if dirt_val >= -0.2 and dirt_val <= 0.1:
 				dirt_arr.append(Vector2i(x,y))
 			
-			elif noise_val > 0.1:
+			if grass_val > 0.01 and grass_val <= 0.5:
 				grass_arr.append(Vector2i(x,y))
-				if noiseT_val > 0.7 and noise_val <= 0.4:
+				
+				if noiseT_val > 0.8 and grass_val <= 0.3:
 					map.set_cell(tree_layer,Vector2i(x,y), tree_id, tree_pos)
-			elif noise_val > 0.5:
+					
+			if hill_val > 0.4:
 				hill_arr.append(Vector2i(x,y))
 				
 				
